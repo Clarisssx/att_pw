@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário com Validação</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f4ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    form {
+      background-color: #f0e6ff;
+      padding: 25px;
+      border-radius: 15px;
+      max-width: 450px;
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    fieldset {
+      border: none;
+      padding: 0;
+      margin: 0 0 20px 0;
+    }
+
+    fieldset legend {
+      font-weight: bold;
+      color: #7a4eb0;
+      font-size: 1.2em;
+    }
+
+    label {
+      color: #4b3575;
+      font-size: 1em;
+    }
+
+    input[type="email"],
+    input[type="text"],
+    input[type="tel"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      border: 1px solid #a08acb;
+      border-radius: 8px;
+      background-color: #ede7f6;
+      color: #4b3575;
+      font-size: 1em;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    input:invalid {
+      border-color: #8e5ab7;
+      background-color: #e0ccee;
+    }
+
+    .phone-group {
+      display: flex;
+      gap: 5px;
+    }
+
+    .phone-group input[type="number"] {
+      width: 70px;
+    }
+
+    .gender-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    input[type="radio"] {
+      margin: 0 5px 0 0;
+    }
+
+    .error {
+      display: none;
+      font-size: 0.9em;
+      color: white;
+      background-color: #c873db;
+      padding: 6px;
+      border-radius: 5px;
+      margin-top: 5px;
+    }
+
+    .error.active {
+      display: block;
+    }
+
+    button {
+      background-color: #7a4eb0;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    button:hover {
+      background-color: #6941a0;
+    }
+  </style>
+</head>
+<body>
+
+<form novalidate>
+  <fieldset>
+    <legend>Informações Pessoais</legend>
+
+    <label for="name">Nome:</label>
+    <input type="text" id="name" name="name" required>
+    <span class="error" aria-live="polite">Campo obrigatório ou inválido!</span>
+
+    <label for="mail">Email:</label>
+    <input type="email" id="mail" name="mail" required>
+    <span class="error" aria-live="polite">Campo obrigatório ou inválido!</span>
+
+    <label>Sexo:</label>
+    <div class="gender-group">
+      <label><input type="radio" name="gender" value="M" required> Masculino</label>
+      <label><input type="radio" name="gender" value="F" required> Feminino</label>
+    </div>
+    <span class="error" aria-live="polite">Por favor, selecione uma opção.</span>
+
+    <label>Telefone:</label>
+    <div class="phone-group">
+      <input type="number" id="ddd" name="ddd" min="11" max="99" required placeholder="DDD">
+      <input type="tel" id="phone" name="phone" required pattern="[0-9]{8,9}" placeholder="Telefone">
+    </div>
+    <span class="error" aria-live="polite">Campo obrigatório ou inválido!</span>
+
+    <label for="cep">CEP:</label>
+    <input type="text" id="cep" name="cep" required pattern="[0-9]{5}-[0-9]{3}">
+    <span class="error" aria-live="polite">Campo obrigatório ou inválido!</span>
+
+    <label for="city">Cidade:</label>
+    <input type="text" id="city" name="city" required>
+    <span class="error" aria-live="polite">Campo obrigatório ou inválido!</span>
+  </fieldset>
+
+  <button type="submit">Enviar</button>
+</form>
+
+<script>
+  var form = document.getElementsByTagName("form")[0];
+  var inputs = form.querySelectorAll("input[required]");
+
+  inputs.forEach(function (input) {
+    var error = input.nextElementSibling;
+
+    input.addEventListener("input", function () {
+      if (input.validity.valid) {
+        error.className = "error";
+      } else {
+        error.className = "error active";
+      }
+    });
+
+    form.addEventListener("submit", function (event) {
+      if (!input.validity.valid) {
+        event.preventDefault();
+        error.className = "error active";
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
